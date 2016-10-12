@@ -30,7 +30,7 @@ module.exports = function(grunt) {
     uglify: {
       my_target: {
         files: {
-          'dist/build.min.js': ['dist/build.js']
+          'public/dist/build.min.js': ['public/dist/build.js']
         }
       }
     },
@@ -88,11 +88,10 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('uglify', ['concat']);
-
-  grunt.registerTask('build', ['uglify']);
-
   grunt.registerTask('default', ['build']);
+
+  grunt.registerTask('build', ['concat', 'uglify']);
+
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
