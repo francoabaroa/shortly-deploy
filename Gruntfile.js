@@ -35,10 +35,17 @@ module.exports = function(grunt) {
       }
     },
 
+    concurrent: {
+      target: {
+        tasks: ['nodemon', 'watch'],
+        options: {
+          logCurrentOutput: true
+        }
+      }
+    },
+
     eslint: {
-      target: [
-        // Add list of files to lint here
-      ]
+      target: ['public/client/*.js']
     },
 
     cssmin: {
@@ -51,6 +58,8 @@ module.exports = function(grunt) {
           'public/lib/**/*.js',
         ],
         tasks: [
+          'mochaTest',
+          'eslint',
           'concat',
           'uglify'
         ]
@@ -71,13 +80,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
 
   grunt.registerTask('server-dev', function (target) {
-    grunt.task.run([ 'nodemon', 'watch' ]);
+    grunt.task.run(['concurrent']);
   });
 
   ////////////////////////////////////////////////////
@@ -90,7 +100,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['build']);
 
-  grunt.registerTask('build', ['concat', 'uglify']);
+  grunt.registerTask('build', ['mochaTest', 'eslint', 'concat', 'uglify']);
 
 
   grunt.registerTask('upload', function(n) {
