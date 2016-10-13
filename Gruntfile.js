@@ -39,7 +39,7 @@ module.exports = function(grunt) {
       target: {
         tasks: ['nodemon', 'watch'],
         options: {
-          logCurrentOutput: true
+          logConcurrentOutput: true
         }
       }
     },
